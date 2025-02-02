@@ -30,6 +30,11 @@ IPAddress local_ip(192,168,1,1);
 IPAddress gateway(192,168,1,1);
 IPAddress subnet(255,255,255,0);
 
+void setArm(int degrees) {
+    servo1.write(degrees);
+    servo2.write(180 - degrees);
+}
+
 void moveForward() {
     isForward = true;
     frontLeftMotor.setPower(255);
@@ -106,30 +111,26 @@ void startAuton() {
     moveForward();
 }
 
-void setArm(int degrees) {
-    servo1.write(degrees);
-    servo2.write(180 - degrees);
-}
-
 void scoreCubes() {
     // TODO: modify angles
     isMoving = true;
+    int start;
     for(int posDegrees = 10; posDegrees <= 100; posDegrees++) {
         if (!isMoving) {
             break;
         }
         setArm(posDegrees);
-        int start = millis();
+        start = millis();
         while (millis()-start < 20) {}
     }
-      int start = millis();
-      while (millis()-start < 1000) {}
+    start = millis();
+    while (millis()-start < 1000) {}
     for(int posDegrees = 100; posDegrees >= 10; posDegrees--) {
         if (!isMoving) {
             break;
         }
         setArm(posDegrees);
-        int start = millis();
+        start = millis();
         while (millis()-start < 20) {}
     }
     isMoving = false;
@@ -144,7 +145,7 @@ void pick() {
     stopMovement();
     setArm(10);
     moveBackward();
-    int start = millis();
+    start = millis();
     while (millis()-start < 500) {}
     stopMovement();
 }
