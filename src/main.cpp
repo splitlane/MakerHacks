@@ -20,7 +20,7 @@ volatile bool isMoving = false;
 volatile bool isForward = false;
 volatile bool isBackward = false;
 
-const char* ssid = "RobotControl";
+const char* ssid = "THR-RC";
 const char* password = "12345678";
 
 WebSocketsServer webSocket = WebSocketsServer(81);
