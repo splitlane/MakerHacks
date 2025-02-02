@@ -126,16 +126,16 @@
                     }
                     break;
                 case 'ArrowUp':
-                    if (!mousedown.includes("ARROWUP")) {
-                        Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'Up').dispatchEvent(new MouseEvent('mousedown'));
-                        mousedown.push("ARROWUP");
-                    }
+                    // if (!mousedown.includes("ARROWUP")) {
+                    Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'Up').dispatchEvent(new MouseEvent('mousedown'));
+                    //     mousedown.push("ARROWUP");
+                    // }
                     break;
                 case 'ArrowDown':
-                    if (!mousedown.includes("ARROWDOWN")) {
-                        Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'Down').dispatchEvent(new MouseEvent('mousedown'));
-                        mousedown.push("ARROWDOWN");
-                    }
+                    // if (!mousedown.includes("ARROWDOWN")) {
+                    Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'Down').dispatchEvent(new MouseEvent('mousedown'));
+                    //     mousedown.push("ARROWDOWN");
+                    // }
                     break;
                 default:
                     break;
@@ -169,18 +169,18 @@
                         delete mousedown[mousedown.indexOf("D")];
                     }
                     break;
-                case 'ArrowUp':
-                    if (mousedown.includes("ARROWUP")) {
-                        Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'Up').dispatchEvent(new MouseEvent('mouseup'));
-                        delete mousedown[mousedown.indexOf("ARROWUP")];
-                    }
-                    break;
-                case 'ArrowDown':
-                    if (mousedown.includes("ARROWDOWN")) {
-                        Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'Down').dispatchEvent(new MouseEvent('mouseup'));
-                        delete mousedown[mousedown.indexOf("ARROWDOWN")];
-                    }
-                    break;
+                // case 'ArrowUp':
+                //     if (mousedown.includes("ARROWUP")) {
+                //         Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'Up').dispatchEvent(new MouseEvent('mouseup'));
+                //         delete mousedown[mousedown.indexOf("ARROWUP")];
+                //     }
+                //     break;
+                // case 'ArrowDown':
+                //     if (mousedown.includes("ARROWDOWN")) {
+                //         Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'Down').dispatchEvent(new MouseEvent('mouseup'));
+                //         delete mousedown[mousedown.indexOf("ARROWDOWN")];
+                //     }
+                //     break;
                 default:
                     break;
             }
