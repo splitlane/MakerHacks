@@ -17,6 +17,8 @@ class Motor {
             if (reversed) {
                 power = -power;
             }
+            Serial.println(power);
+            Serial.println(reversed);
             if (power >= 0) {
                 digitalWrite(pinIN1, HIGH);
                 digitalWrite(pinIN2, LOW);
