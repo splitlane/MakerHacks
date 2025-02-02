@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Robot Control</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .control-btn {
+            width: 60px;
+            height: 60px;
+            margin: 5px;
+            font-size: 24px;
+        }
+        .controls {
+            text-align: center;
+            margin-top: 50px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:active {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <div>
+            <button class="control-btn" style="width: 100px" onClick="sendCommand('SETUP')">Auton</button>
+        </div>
+        <div>
+            <button class="control-btn" style="width: 100px" onClick="sendCommand('SCORE')">Score</button>
+        </div>
+        <div>
+            <button class="control-btn" style="width: 100px" onClick="sendCommand('PICK')">Pick</button>
+        </div>
+        <div><p></p></div>
+        <div>
+            <button class="control-btn" onmousedown="sendCommand('W')" 
+                    onmouseup="sendCommand('STOP')" 
+                    ontouchstart="sendCommand('W')" 
+                    ontouchend="sendCommand('STOP')">W</button>
+        </div>
+        <div>
+            <button class="control-btn" onmousedown="sendCommand('A')" 
+                    onmouseup="sendCommand('STOP')"
+                    ontouchstart="sendCommand('A')" 
+                    ontouchend="sendCommand('STOP')">A</button>
+            <button class="control-btn" onmousedown="sendCommand('S')" 
+                    onmouseup="sendCommand('STOP')"
+                    ontouchstart="sendCommand('S')" 
+                    ontouchend="sendCommand('STOP')">S</button>
+            <button class="control-btn" onmousedown="sendCommand('D')" 
+                    onmouseup="sendCommand('STOP')"
+                    ontouchstart="sendCommand('D')" 
+                    ontouchend="sendCommand('STOP')">D</button>
+        </div>
+        <div><p></p></div>
+        <div>
+            <button class="control-btn" onmousedown="sendCommand('ARROWUP')" 
+                    onmouseup="sendCommand('STOPARM')" 
+                    ontouchstart="sendCommand('ARROWUP')" 
+                    ontouchend="sendCommand('STOPARM')">Up</button>
+        </div>
+        <div>
+            <button class="control-btn" onmousedown="sendCommand('ARROWDOWN')" 
+                    onmouseup="sendCommand('STOPARM')" 
+                    ontouchstart="sendCommand('ARROWDOWN')" 
+                    ontouchend="sendCommand('STOPARM')">Down</button>
+        </div>
+    </div>
+
+    <script>
+        var socket = new WebSocket('ws://192.168.1.1:81/');
+
+        var mousedown = [];
+        
+        function sendCommand(command) {
+            socket.send(command);
+        }
+        
+        socket.onopen = function(e) {
+            console.log('Connected to robot');
+        };
+
+        socket.onerror = function(e) {
+            console.log('WebSocket error:', e);
+        };
+
+        socket.onclose = function(e) {
+            console.log('WebSocket connection closed');
+        };
+
+        document.addEventListener("keydown", (event) => {
+            const keyName = event.key;
+            switch (keyName) {
+                case 'w':
+                    if (!mousedown.includes("W")) {
+                        Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'W').dispatchEvent(new MouseEvent('mousedown'));
+                        mousedown.push("W");
+                    }
+                    break;
+                case 'a':
+                    if (!mousedown.includes("A")) {
+                        Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'A').dispatchEvent(new MouseEvent('mousedown'));
+                        mousedown.push("A");
+                    }
+                    break;
+                case 's':
+                    if (!mousedown.includes("S")) {
+                        Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'S').dispatchEvent(new MouseEvent('mousedown'));
+                        mousedown.push("S");
+                    }
+                    break;
+                case 'd':
+                    if (!mousedown.includes("D")) {
+                        Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'D').dispatchEvent(new MouseEvent('mousedown'));
+                        mousedown.push("D");
+                    }
+                    break;
+                case 'ArrowUp':
+                    if (!mousedown.includes("ARROWUP")) {
+                        Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'Up').dispatchEvent(new MouseEvent('mousedown'));
+                        mousedown.push("ARROWUP");
+                    }
+                    break;
+                case 'ArrowDown':
+                    if (!mousedown.includes("ARROWDOWN")) {
+                        Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'Down').dispatchEvent(new MouseEvent('mousedown'));
+                        mousedown.push("ARROWDOWN");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        document.addEventListener("keyup", (event) => {
+            const keyName = event.key;
+            switch (keyName) {
+                case 'w':
+                    if (mousedown.includes("W")) {
+                        Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'W').dispatchEvent(new MouseEvent('mouseup'));
+                        delete mousedown[mousedown.indexOf("W")];
+                    }
+                    break;
+                case 'a':
+                    if (mousedown.includes("A")) {
+                        Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'A').dispatchEvent(new MouseEvent('mouseup'));
+                        delete mousedown[mousedown.indexOf("A")];
+                    }
+                    break;
+                case 's':
+                    if (mousedown.includes("S")) {
+                        Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'S').dispatchEvent(new MouseEvent('mouseup'));
+                        delete mousedown[mousedown.indexOf("S")];
+                    }
+                    break;
+                case 'd':
+                    if (mousedown.includes("D")) {
+                        Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'D').dispatchEvent(new MouseEvent('mouseup'));
+                        delete mousedown[mousedown.indexOf("D")];
+                    }
+                    break;
+                case 'ArrowUp':
+                    if (mousedown.includes("ARROWUP")) {
+                        Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'Up').dispatchEvent(new MouseEvent('mouseup'));
+                        delete mousedown[mousedown.indexOf("ARROWUP")];
+                    }
+                    break;
+                case 'ArrowDown':
+                    if (mousedown.includes("ARROWDOWN")) {
+                        Array.from(document.getElementsByTagName('button')).find(button => button.innerText === 'Down').dispatchEvent(new MouseEvent('mouseup'));
+                        delete mousedown[mousedown.indexOf("ARROWDOWN")];
+                    }
+                    break;
+                default:
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>
