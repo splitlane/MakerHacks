@@ -196,6 +196,9 @@ void handleRoot() {
 }
 
 void setup() {
+    frontLeftMotor.setReversed(true);
+    backRightMotor.setReversed(true);
+
     Serial.begin(9600);
     WiFi.softAP(ssid, password);
     WiFi.softAPConfig(local_ip, gateway, subnet);

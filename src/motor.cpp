@@ -1,6 +1,8 @@
 #include <Arduino.h>
 
 class Motor {
+    private:
+        bool reversed = false;
     public:
         Motor(uint8_t pinIN1, uint8_t pinIN2, uint8_t pinEN) : pinIN1(pinIN1), pinIN2(pinIN2), pinEN(pinEN) {
             pinMode(pinIN1, OUTPUT);
@@ -12,6 +14,9 @@ class Motor {
         // power is from -255 to 255
         // used int instead of int8_t due to range
         void setPower(int power) {
+            if (reversed) {
+                power = -power;
+            }
             if (power >= 0) {
                 digitalWrite(pinIN1, HIGH);
                 digitalWrite(pinIN2, LOW);
@@ -32,6 +37,9 @@ class Motor {
         void freeRun() {
             digitalWrite(pinEN, LOW);
         };
+        void setReversed(bool r) {
+            reversed = r;
+        }
     private:
         uint8_t pinIN1, pinIN2, pinEN;
 };
