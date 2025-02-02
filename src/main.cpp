@@ -47,17 +47,21 @@ void moveBackward() {
 }
 
 void rotateLeft() {
-    if(isBackward) {
+    if (!isBackward) {
+        frontLeftMotor.setPower(255);
         backLeftMotor.setPower(255);
     }
     frontRightMotor.setPower(255);
+    backRightMotor.setPower(255);
 }
 
 void rotateRight() {
-    if(isForward) {
+    if (!isForward) {
+        frontRightMotor.setPower(255);
         backRightMotor.setPower(255);
     }
     frontLeftMotor.setPower(255);
+    backLeftMotor.setPower(255);
 }
 
 void stopMovement() {
@@ -72,8 +76,7 @@ void stopMovement() {
 void startAuton() {
     // TODO: change time intervals
     int start = millis();
-    servo1.write(10);
-    servo2.write(10);
+    setArm(10);
 
     moveForward();
     delay(3000);
@@ -103,6 +106,11 @@ void startAuton() {
     moveForward();
 }
 
+void setArm(int degrees) {
+    servo1.write(degrees);
+    servo2.write(180 - degrees);
+}
+
 void scoreCubes() {
     // TODO: modify angles
     isMoving = true;
@@ -110,8 +118,7 @@ void scoreCubes() {
         if (!isMoving) {
             break;
         }
-        servo1.write(posDegrees);
-        servo2.write(posDegrees);
+        setArm(posDegrees);
         int start = millis();
         while (millis()-start < 20) {}
     }
@@ -121,8 +128,7 @@ void scoreCubes() {
         if (!isMoving) {
             break;
         }
-        servo1.write(posDegrees);
-        servo2.write(posDegrees);
+        setArm(posDegrees);
         int start = millis();
         while (millis()-start < 20) {}
     }
@@ -131,14 +137,12 @@ void scoreCubes() {
 
 void pick() {
     // TODO: modify angles
-    servo1.write(0);
-    servo2.write(10);
+    setArm(0);
     moveForward();
     int start = millis();
     while (millis()-start < 500) {}
     stopMovement();
-    servo1.write(10);
-    servo2.write(10);
+    setArm(10);
     moveBackward();
     int start = millis();
     while (millis()-start < 500) {}
@@ -146,19 +150,16 @@ void pick() {
 }
 
 void armUp() {
-    servo1.write(servo1.read()+1);
-    servo2.write(servo2.read()+1);
+    setArm(servo1.read()+1);
 }
 
 void armDown() {
-    servo1.write(servo1.read()-1);
-    servo2.write(servo2.read()-1);
+    setArm(servo1.read()-1);
 }
 
 void stopArm() {
     isMoving = false;
-    servo1.write(servo1.read());
-    servo2.write(servo2.read());
+    setArm(servo1.read());
 }
 
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
